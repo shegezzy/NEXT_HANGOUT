@@ -315,14 +315,25 @@ function renderEventInfo() {
 function startCountdown() {
   function tick() {
     const diff = nextHangout.date - new Date();
+    const monthMs = 30 * 24 * 60 * 60 * 1000;
+    const dayMs = 24 * 60 * 60 * 1000;
+    const hourMs = 60 * 60 * 1000;
+    const minuteMs = 60 * 1000;
+
     if (diff <= 0) {
-      ['cd-days', 'cd-hrs', 'cd-min', 'cd-sec'].forEach(id => document.getElementById(id).textContent = '0');
+      ['cd-month', 'cd-days', 'cd-hrs', 'cd-min'].forEach(id => document.getElementById(id).textContent = '0');
       return;
     }
-    document.getElementById('cd-days').textContent = Math.floor(diff / 86400000);
-    document.getElementById('cd-hrs').textContent = Math.floor((diff % 86400000) / 3600000);
-    document.getElementById('cd-min').textContent = Math.floor((diff % 3600000) / 60000);
-    document.getElementById('cd-sec').textContent = Math.floor((diff % 60000) / 1000);
+
+    const months = Math.floor(diff / monthMs);
+    const days = Math.floor((diff % monthMs) / dayMs);
+    const hrs = Math.floor((diff % dayMs) / hourMs);
+    const min = Math.floor((diff % hourMs) / minuteMs);
+
+    document.getElementById('cd-month').textContent = months;
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hrs').textContent = hrs;
+    document.getElementById('cd-min').textContent = min;
   }
   tick(); setInterval(tick, 1000);
 }
