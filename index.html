@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXT HANGOUT?</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-home">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">NEXT HANGOUT?</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="primary-nav">
+    <li><a href="#hangout">Upcoming</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#poll">Vote</a></li>
+    <li><a href="#members">Crew</a></li>
+    <li><a href="membership.html">Membership</a></li>
+    <li><a href="payment.html">Payment</a></li>
+  </ul>
+  <a class="nav-btn" href="membership.html">Request Invite</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="hero-tag">🔥 The crew is alive</div>
+  <h1 class="hero-title">NEXT<br><span>HANGOUT?</span></h1>
+  <p class="hero-sub">Your crew's home base. Track upcoming hangouts, vote on spots, relive the memories.</p>
+  <div class="hero-cta">
+    <a href="#hangout" class="btn-primary">See Next Hangout</a>
+    <a href="#gallery" class="btn-secondary">Browse Gallery</a>
+    <a class="btn-secondary" href="membership.html">Join Membership</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong id="stat-hangouts">0</strong><span>Hangouts so far</span></div>
+    <div class="hero-stat"><strong id="stat-members">0</strong><span>Crew members</span></div>
+    <div class="hero-stat"><strong id="stat-photos">0</strong><span>Memories captured</span></div>
+  </div>
+</section>
+
+<!-- UPCOMING HANGOUT -->
+<section id="hangout">
+  <div class="section-inner">
+    <p class="section-label">📅 What's coming</p>
+    <h2 class="section-title">Upcoming Hangout</h2>
+    <p class="section-sub">The details for the next get-together. Don't miss it.</p>
+    <div class="hangout-grid">
+      <div class="hangout-card hangout-main">
+        <div class="hangout-date-badge">🗓️ <span id="event-date-label">Loading...</span></div>
+        <h3 id="event-name">Monthly Crew Night</h3>
+        <p id="event-desc">The vibe is unmatched, the crew is certified. Let's link up and make it a night to remember.</p>
+        <div class="hangout-meta">
+          <div class="meta-item"><span class="meta-icon">📍</span><span id="event-location">Lekki Phase 1, Lagos</span></div>
+          <div class="meta-item"><span class="meta-icon">⏰</span><span id="event-time">7:00 PM</span></div>
+          <div class="meta-item"><span class="meta-icon">💰</span><span id="event-cost">Everyone pays their way</span></div>
+        </div>
+      </div>
+      <div class="hangout-card">
+        <h4>Countdown</h4>
+        <div class="countdown" style="margin-top:1rem">
+          <div class="cd-unit"><strong id="cd-days">--</strong><span>Days</span></div>
+          <div class="cd-unit"><strong id="cd-hrs">--</strong><span>Hrs</span></div>
+          <div class="cd-unit"><strong id="cd-min">--</strong><span>Min</span></div>
+          <div class="cd-unit"><strong id="cd-sec">--</strong><span>Sec</span></div>
+        </div>
+      </div>
+      <div class="hangout-card">
+        <h4>Who's Coming?</h4>
+        <div class="rsvp-list" id="rsvp-list" style="margin-top:1rem"></div>
+        <div class="rsvp-btns">
+          <button class="rsvp-btn yes" onclick="rsvp('going')">✓ I'm In</button>
+          <button class="rsvp-btn maybe2" onclick="rsvp('maybe')">~ Maybe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label">📸 Memories</p>
+    <h2 class="section-title">The Gallery</h2>
+    <p class="section-sub">Every hangout, documented and curated by the site admin.</p>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- POLL -->
+<section id="poll">
+  <div class="section-inner">
+    <p class="section-label">🗳️ Have your say</p>
+    <h2 class="section-title">Vote on Next Spot</h2>
+    <p class="section-sub">Drop your suggestion and let the crew decide. Democracy in action.</p>
+    <div class="poll-card">
+      <h3>Where should we hang next?</h3>
+      <p class="poll-meta">Cast your vote · Suggest a new spot below</p>
+      <div id="poll-options"></div>
+      <div class="poll-votes" id="poll-total">0 votes total</div>
+      <div class="add-option-row">
+        <input type="text" class="add-option-input" id="new-option-input" placeholder="Suggest a spot (e.g. Rooftop bar, Eko Hotel...)" onkeydown="if(event.key==='Enter')addOption()">
+        <button class="add-option-btn" onclick="addOption()">Add</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIOUS HANGOUTS -->
+<section id="previous-hangouts">
+  <div class="section-inner">
+    <p class="section-label">🎞️ Throwbacks</p>
+    <h2 class="section-title">Previous Hangouts</h2>
+    <p class="section-sub">Swipe through moments from earlier meetups with the crew.</p>
+    <div class="slider-shell" id="hangout-slider">
+      <button class="slider-control prev" id="slider-prev" aria-label="Previous slide">‹</button>
+      <div class="slider-track" id="slider-track"></div>
+      <button class="slider-control next" id="slider-next" aria-label="Next slide">›</button>
+    </div>
+    <div class="slider-dots" id="slider-dots"></div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section id="members">
+  <div class="section-inner">
+    <p class="section-label">👥 The crew</p>
+    <h2 class="section-title">Member Profiles</h2>
+    <p class="section-sub">The faces behind the madness. Your ride-or-dies.</p>
+    <div class="members-grid" id="members-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>NEXT HANGOUT?</strong> — Built for the crew, by the crew. 🤝
+  <div style="margin-top:0.5rem;font-size:0.75rem">Made with love & good vibes</div>
+</footer>
+
+<!-- ADD MEMBER MODAL -->
+<div class="modal-backdrop" id="member-modal">
+  <div class="modal">
+    <h3>Join the Crew 🤝</h3>
+    <div class="modal-field">
+      <label>Your Name</label>
+      <input type="text" id="m-name" placeholder="e.g. Tunde, Amaka, Big K...">
+    </div>
+    <div class="modal-field">
+      <label>Your Role / Nickname</label>
+      <input type="text" id="m-role" placeholder="e.g. The Organiser, Hype Man...">
+    </div>
+    <div class="modal-field">
+      <label>Your Vibe</label>
+      <input type="text" id="m-vibe" placeholder="e.g. Always Late, Food First...">
+    </div>
+    <div class="modal-field">
+      <label>Avatar Color</label>
+      <select id="m-color">
+        <option value="#f5c842,#1a1510">Gold 🟡</option>
+        <option value="#ff6b35,#1a0e09">Orange 🟠</option>
+        <option value="#6dcc80,#0e1a10">Green 🟢</option>
+        <option value="#6bb5f0,#0e1220">Blue 🔵</option>
+        <option value="#c47ef0,#15102a">Purple 🟣</option>
+        <option value="#f06b9f,#1a0e14">Pink 🩷</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeMemberModal()">Cancel</button>
+      <button class="modal-submit" onclick="addMember()">Add Me to the Crew</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN REQUEST MODAL -->
+<div class="modal-backdrop" id="join-modal">
+  <div class="modal">
+    <h3>Request to Join</h3>
+    <form id="join-form" class="join-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="f5138edf-d343-4261-844f-b2e51e8e7be1">
+      <input type="hidden" name="subject" value="New Join Request - Next Hangout">
+      <input type="hidden" name="from_name" value="Next Hangout Website">
+      <input type="checkbox" name="botcheck" style="display:none">
+      <div class="modal-field">
+        <label>Full Name</label>
+        <input type="text" name="name" required placeholder="e.g. Evans Adebayo">
+      </div>
+      <div class="modal-field">
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="modal-field">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" required placeholder="+234...">
+      </div>
+      <div class="modal-field">
+        <label>Why do you want to join?</label>
+        <input type="text" name="message" required placeholder="Tell us your vibe">
+      </div>
+      <!-- MEMBER PROFILE MODAL <p class="join-help">Replace <code>cec1ac94-525d-4ae2-a182-9e60466f6e53</code> with your real Web3Forms key.</p> -->
+      <div id="join-form-status" class="form-status" role="status" aria-live="polite"></div>
+      <div class="modal-btns">
+        <button type="button" class="modal-cancel" onclick="closeJoinModal()">Cancel</button>
+        <button type="submit" class="modal-submit">Send Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MEMBER PROFILE MODAL -->
+<div class="modal-backdrop profile-modal" id="profile-modal">
+  <div class="modal">
+    <div class="profile-header">
+      <img class="profile-photo" id="profile-photo" src="" alt="">
+      <div>
+        <div class="profile-name" id="profile-full-name">Crew Member</div>
+        <div class="profile-role" id="profile-role">Crew Member</div>
+      </div>
+    </div>
+    <div class="profile-list">
+      <div class="profile-row"><span>Hobbies</span><span id="profile-hobbies">-</span></div>
+      <div class="profile-row"><span>Fav Team</span><span id="profile-team">-</span></div>
+      <div class="profile-row"><span>Gender</span><span id="profile-gender">-</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-submit" onclick="closeProfileModal()">Close Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

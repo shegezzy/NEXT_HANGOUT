@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment | Next Hangout?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-payment">
+  <header class="topbar">
+    <a href="index.html" class="brand">NEXT HANGOUT?</a>
+    <a href="index.html" class="back-link">Back Home</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Payment Details</p>
+      <h1>Pay For Next Hangout</h1>
+      <p class="hero-sub">Use the account details below to make payment, then upload your receipt so we can confirm your slot.</p>
+    </section>
+
+    <section class="section">
+      <h2>Transfer Account</h2>
+      <div class="pay-card">
+        <div class="pay-row">
+          <span>Account Number</span>
+          <strong id="pay-account-number">8036102434</strong>
+        </div>
+        <div class="pay-row">
+          <span>Account Name</span>
+          <strong>Titilayo N Akinsola</strong>
+        </div>
+        <div class="pay-row">
+          <span>Bank</span>
+          <strong>Palmpay</strong>
+        </div>
+        <button type="button" class="submit-btn" id="copy-account-btn">Copy Account Number</button>
+        <div id="copy-status" class="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Upload Payment Receipt</h2>
+      <form id="payment-form" class="form-card" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="access_key" value="f5138edf-d343-4261-844f-b2e51e8e7be1">
+        <input type="hidden" name="subject" value="New Payment Receipt - Next Hangout">
+        <input type="hidden" name="from_name" value="Next Hangout Payment Page">
+        <input type="checkbox" name="botcheck" class="botcheck">
+
+        <label>
+          Full Name
+          <input type="text" name="name" required placeholder="e.g. Evans Adebayo">
+        </label>
+
+        <label>
+          Email Address
+          <input type="email" name="email" required placeholder="you@example.com">
+        </label>
+
+        <label>
+          Phone Number
+          <input type="tel" name="phone" required placeholder="+234...">
+        </label>
+
+        <label>
+          Amount Paid
+          <input type="text" name="amount_paid" required placeholder="e.g. 15000">
+        </label>
+
+        <label>
+          Payment Reference
+          <input type="text" name="payment_reference" required placeholder="Transaction reference / narration">
+        </label>
+
+        <label>
+          Receipt Upload (JPG, PNG, PDF)
+          <input type="file" id="receipt-file" name="attachment" accept=".jpg,.jpeg,.png,.pdf" required>
+        </label>
+        <p class="upload-hint" id="receipt-file-name">No file selected yet.</p>
+
+        <div id="payment-form-status" class="status" aria-live="polite"></div>
+        <button type="submit" class="submit-btn">Submit Receipt</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <strong>NEXT HANGOUT?</strong> — Built for the crew, by the crew. 🤝
+    <div style="margin-top:0.5rem;font-size:0.75rem">Made with love & good vibes</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
