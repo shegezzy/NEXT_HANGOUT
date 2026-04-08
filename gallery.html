@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXT HANGOUT? Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-gallery">
+
+<nav>
+  <a class="nav-logo" href="index.html">NEXT HANGOUT?</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="primary-nav">
+    <li><a href="index.html#hangout">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="index.html#poll">Vote</a></li>
+    <li><a href="index.html#members">Crew</a></li>
+    <li><a href="membership.html">Membership</a></li>
+    <li><a href="payment.html">Payment</a></li>
+    <li><a href="login.html">Login</a></li>
+  </ul>
+  <a class="nav-btn" href="membership.html">Request Invite</a>
+</nav>
+
+<main>
+  <section class="gallery-page-hero">
+    <div class="section-inner">
+      <p class="section-label">📸 Memories Archive</p>
+      <h1 class="section-title">Hangout Gallery</h1>
+      <p class="section-sub">Every hangout now has its own photo collection and details. Tap any image to view it full-screen.</p>
+    </div>
+  </section>
+
+  <section class="gallery-page-content">
+    <div class="section-inner" id="hangout-albums"></div>
+  </section>
+</main>
+
+<footer>
+  <strong>NEXT HANGOUT?</strong> — Built for the crew, by the crew. 🤝
+  <div style="margin-top:0.5rem;font-size:0.75rem">Made with love & good vibes</div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-nav prev" type="button" onclick="event.stopPropagation(); moveLightbox(-1)" aria-label="Previous photo">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-nav next" type="button" onclick="event.stopPropagation(); moveLightbox(1)" aria-label="Next photo">›</button>
+  <div class="lightbox-meta">
+    <span id="lightbox-caption">Hangout photo</span>
+    <span id="lightbox-counter">1 / 1</span>
+  </div>
+  <button class="lightbox-close" type="button" onclick="closeLightbox()">✕</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

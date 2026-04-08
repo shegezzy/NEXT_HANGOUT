@@ -36,13 +36,87 @@ let rsvpList = [
   { name: "Kemi", status: "maybe" },
 ];
 
-const galleryItems = [
-  { emoji: "🌴", label: "Beach Day '24", bg: "#1a2e1a" },
-  { emoji: "🍗", label: "BBQ Night", bg: "#2e1a0e" },
-  { emoji: "🎉", label: "Birthday Bash", bg: "#2e0e2a" },
-  { emoji: "🎵", label: "Concert Night", bg: "#0e1a2e" },
-  { emoji: "🍹", label: "Rooftop Vibes", bg: "#2e2a0e" },
-  { emoji: "🏀", label: "Sport Day", bg: "#0e2e1a" },
+const hangoutAlbums = [
+  {
+    title: "Abeokuta Hangout",
+    date: "March 16, 2026",
+    duration: "2 days",
+    location: "Olumo Rock, Abeokuta",
+    photos: [
+      {
+        img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
+        caption: "Group link-up before heading out"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1496843916299-590492c751f4?auto=format&fit=crop&w=1600&q=80",
+        caption: "Evening dinner with the full crew"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1600&q=80",
+        caption: "Morning tour and sightseeing moments"
+      }
+    ]
+  },
+  {
+    title: "Abule Hangout",
+    date: "February 22, 2026",
+    duration: "1 day",
+    location: "Abule Egba, Lagos",
+    photos: [
+      {
+        img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=80",
+        caption: "Music and games through the night"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1600&q=80",
+        caption: "Street food stop after meetup"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1600&q=80",
+        caption: "Late-night team selfie moments"
+      }
+    ]
+  },
+  {
+    title: "Ibadan Hangout",
+    date: "January 18, 2026",
+    duration: "1 day",
+    location: "Bodija, Ibadan",
+    photos: [
+      {
+        img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1600&q=80",
+        caption: "Outdoor hangout with fresh weather"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1600&q=80",
+        caption: "Lounge stop and board games"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1520105072000-f44fc083e508?auto=format&fit=crop&w=1600&q=80",
+        caption: "Closing dinner and highlights recap"
+      }
+    ]
+  },
+  {
+    title: "Lekki Hangout",
+    date: "December 21, 2025",
+    duration: "1 day",
+    location: "Lekki Phase 1, Lagos",
+    photos: [
+      {
+        img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80",
+        caption: "Rooftop chill with city lights"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1600&q=80",
+        caption: "Live set and dance session"
+      },
+      {
+        img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1600&q=80",
+        caption: "Final shot before closeout"
+      }
+    ]
+  }
 ];
 
 const paymentLeaderboard = [
@@ -91,7 +165,8 @@ const previousHangoutSlides = [
 let sliderIndex = 0;
 let sliderTimer = null;
 
-let photoCount = galleryItems.length;
+let activeLightboxAlbum = -1;
+let activeLightboxPhoto = 0;
 
 // ── INIT ──
 function init() {
@@ -99,7 +174,6 @@ function init() {
   renderEventInfo();
   startCountdown();
   renderRsvp();
-  renderGallery();
   renderLeaderboard();
   initHangoutSlider();
   renderPoll();
@@ -209,7 +283,11 @@ function initHangoutSlider() {
 function animateStats() {
   animateNum('stat-hangouts', 18);
   animateNum('stat-members', members.length);
-  animateNum('stat-photos', photoCount);
+  animateNum('stat-photos', getTotalGalleryPhotoCount());
+}
+
+function getTotalGalleryPhotoCount() {
+  return hangoutAlbums.reduce((sum, album) => sum + album.photos.length, 0);
 }
 
 function animateNum(id, target) {
@@ -269,41 +347,105 @@ function rsvp(status) {
 }
 
 // ── GALLERY ──
-function renderGallery() {
-  const grid = document.getElementById('gallery-grid');
-  grid.innerHTML = galleryItems.map((item, i) => `
-    <div class="gallery-item" style="background:${item.bg}" onclick="openLightbox(${i})">
-      <div class="gallery-placeholder">
-        <div class="gallery-emoji">${item.emoji}</div>
-        <div>${item.label}</div>
-      </div>
-      <div class="gallery-overlay"><span>${item.label}</span></div>
-    </div>
-  `).join('');
+function renderGalleryPage() {
+  const container = document.getElementById('hangout-albums');
+  if (!container) return;
+
+  container.innerHTML = hangoutAlbums.map((album, albumIndex) => {
+    const photosMarkup = album.photos.map((photo, photoIndex) => {
+      return `
+        <button class="gallery-page-item" type="button" onclick="openLightbox(${albumIndex}, ${photoIndex})" aria-label="Open ${photo.caption}">
+          <img src="${photo.img}" alt="${photo.caption}">
+          <span>${photo.caption}</span>
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <article class="hangout-album">
+        <div class="hangout-album-head">
+          <h2>${album.title}</h2>
+          <div class="hangout-album-meta">
+            <span><strong>Date:</strong> ${album.date}</span>
+            <span><strong>Duration:</strong> ${album.duration}</span>
+            <span><strong>Location:</strong> ${album.location}</span>
+          </div>
+        </div>
+        <div class="gallery-page-grid">
+          ${photosMarkup}
+        </div>
+      </article>
+    `;
+  }).join('');
 }
 
-function handleUpload(e) {
-  const files = Array.from(e.target.files);
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      galleryItems.push({ img: ev.target.result, label: file.name.replace(/\.[^.]+$/, ''), bg: '#1a1917' });
-      photoCount++;
-      renderGallery();
-      document.getElementById('stat-photos').textContent = photoCount;
-    };
-    reader.readAsDataURL(file);
-  });
-  e.target.value = '';
-}
+function updateLightboxView() {
+  const album = hangoutAlbums[activeLightboxAlbum];
+  if (!album || !album.photos.length) return;
 
-function openLightbox(i) {
-  const item = galleryItems[i];
+  const item = album.photos[activeLightboxPhoto];
   const lb = document.getElementById('lightbox');
   const img = document.getElementById('lightbox-img');
-  if (item.img) { img.src = item.img; lb.classList.add('open'); }
+  const caption = document.getElementById('lightbox-caption');
+  const counter = document.getElementById('lightbox-counter');
+  if (!item || !lb || !img) return;
+
+  img.src = item.img;
+  img.alt = item.caption || 'Hangout photo';
+  if (caption) caption.textContent = `${album.title}: ${item.caption || 'Hangout photo'}`;
+  if (counter) counter.textContent = `${activeLightboxPhoto + 1} / ${album.photos.length}`;
+  lb.classList.add('open');
 }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+function openLightbox(albumIndex, photoIndex = 0) {
+  const album = hangoutAlbums[albumIndex];
+  if (!album || !album.photos.length) return;
+  activeLightboxAlbum = albumIndex;
+  activeLightboxPhoto = Math.max(0, Math.min(photoIndex, album.photos.length - 1));
+  updateLightboxView();
+}
+
+function moveLightbox(step) {
+  const album = hangoutAlbums[activeLightboxAlbum];
+  if (!album || !album.photos.length) return;
+  const total = album.photos.length;
+  activeLightboxPhoto = (activeLightboxPhoto + step + total) % total;
+  updateLightboxView();
+}
+
+function closeLightbox(event) {
+  if (event && event.target !== event.currentTarget) return;
+  const lb = document.getElementById('lightbox');
+  if (lb) lb.classList.remove('open');
+}
+
+function initLightboxBehavior() {
+  const lb = document.getElementById('lightbox');
+  if (!lb || lb.dataset.enhanced === 'true') return;
+
+  lb.dataset.enhanced = 'true';
+
+  let startX = 0;
+  lb.addEventListener('touchstart', e => {
+    if (!e.touches.length) return;
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  lb.addEventListener('touchend', e => {
+    if (!e.changedTouches.length || !lb.classList.contains('open')) return;
+    const delta = e.changedTouches[0].clientX - startX;
+    if (Math.abs(delta) < 40) return;
+    if (delta > 0) moveLightbox(-1);
+    else moveLightbox(1);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') moveLightbox(-1);
+    if (e.key === 'ArrowRight') moveLightbox(1);
+  });
+}
 
 // ── POLL ──
 function renderPoll() {
@@ -625,9 +767,15 @@ attachModalBackdropClose('profile-modal', closeProfileModal);
 initWeb3Form('join-form', 'join-form-status', 'form-status');
 initWeb3Form('membership-form', 'form-status', 'status');
 initWeb3Form('payment-form', 'payment-form-status', 'status');
+initLightboxBehavior();
 
 if (document.body.classList.contains('page-home')) {
   init();
+}
+
+if (document.body.classList.contains('page-gallery')) {
+  initMobileNav();
+  renderGalleryPage();
 }
 
 if (document.body.classList.contains('page-payment')) {
