@@ -512,7 +512,9 @@
   /* ── MEMBERS ── */
   #members { background: var(--bg); }
   .members-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
   }
   .member-card {
     background: var(--card); border: 1px solid var(--border);
@@ -825,6 +827,36 @@
     }
     .profile-name { font-size: 1.2rem; }
     .profile-row { font-size: 0.86rem; }
+    #members {
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
+    }
+    #members .section-inner {
+      max-width: 100%;
+    }
+    .members-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.55rem;
+    }
+    .member-card {
+      padding: 0.65rem 0.4rem;
+      border-radius: 12px;
+    }
+    .member-avatar {
+      width: 46px;
+      height: 46px;
+      margin-bottom: 0.45rem;
+    }
+    .member-name {
+      font-size: 0.72rem;
+      line-height: 1.2;
+      margin-bottom: 0;
+      word-break: break-word;
+    }
+    .member-role,
+    .member-vibe {
+      display: none;
+    }
     .lightbox-nav {
       width: 36px;
       height: 36px;
@@ -867,7 +899,14 @@
     .poll-card { padding: 1.2rem; }
     .slider-control.prev { left: 0.55rem; }
     .slider-control.next { right: 0.55rem; }
-    .members-grid { grid-template-columns: 1fr; }
+    #members {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    .members-grid {
+      grid-template-columns: repeat(auto-fit, minmax(102px, 1fr));
+      gap: 0.45rem;
+    }
     .modal-btns { flex-direction: column; }
     .lightbox-nav.prev { left: 0.6rem; }
     .lightbox-nav.next { right: 0.6rem; }
@@ -958,6 +997,21 @@
       gap: 0.35rem;
     }
     .profile-row span:last-child { text-align: left; }
+    .member-card {
+      padding: 0.55rem 0.35rem;
+    }
+    .member-avatar {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0.35rem;
+    }
+    .member-name {
+      font-size: 0.68rem;
+    }
+    .members-grid {
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+      gap: 0.4rem;
+    }
   }
 
 /* ── MEMBERSHIP PAGE ── */
