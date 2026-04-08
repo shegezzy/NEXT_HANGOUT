@@ -9,15 +9,15 @@ const nextHangout = {
 };
 
 let members = [
-  { name: "Evans", fullName: "Evander Odebode", role: "Crew Member", vibe: "House Master", hobbies: "Gaming, Movies", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/11.jpg", color: "#f5c842,#1a1510" },
-  { name: "TNA", fullName: "Titilola Akinsola", role: "Crew Member", vibe: "Accountant", hobbies: "Fashion, Karaoke", favTeam: "Chelsea", gender: "Female", photo: "https://randomuser.me/api/portraits/women/22.jpg", color: "#ff6b35,#1a0e09" },
-  { name: "Victory", fullName: "Victory Ojo", role: "Crew Member", vibe: "Chef", hobbies: "Cooking, Anime", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/women/33.jpg", color: "#6dcc80,#0e1a10" },
-  { name: "Wale", fullName: "OlaWale Akindele", role: "Crew Member", vibe: "Content Creator", hobbies: "Game Coordinato, Vlogging", favTeam: "Barcelona", gender: "Male", photo: "https://randomuser.me/api/portraits/men/44.jpg", color: "#6bb5f0,#0e1220" },
-  { name: "Opeyemi", fullName: "Opeyemi IDontKnowYourSurname", role: "Crew Member", vibe: "Photo/Vide~Grapher", hobbies: "Vlogging, Food", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/women/66.jpg", color: "#f06b9f,#1a0e14" },
-  { name: "Segun", fullName: "Olusegun Akinnola", role: "Crew Member", vibe: "Mixologist", hobbies: "Cocktails, Music", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
-  { name: "Lola", fullName: "Ololade Oyetunde", role: "Crew Member", vibe: "Quality Control Officer", hobbies: "Travelling, Food", favTeam: "AC Milan", gender: "Female", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
-  { name: "Kolade", fullName: "Kolade Aminu", role: "Crew Member", vibe: "To be decided", hobbies: "DJing, Football", favTeam: "Manchester City", gender: "Male", photo: "https://randomuser.me/api/portraits/men/55.jpg", color: "#c47ef0,#15102a" },
-  { name: "Kish", fullName: "Kish IDontKnowYourSurname", role: "Crew Member", vibe: "To be decided", hobbies: "Photography, Vlogging", favTeam: "Real Madrid", gender: "Male", photo: "https://randomuser.me/api/portraits/men/77.jpg", color: "#f5c842,#1a1510" },
+  { name: "Evans", fullName: "Evander Odebode",vibe: "House Master", hobbies: "Gaming, Movies", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/11.jpg", color: "#f5c842,#1a1510" },
+  { name: "TNA", fullName: "Titilola Akinsola",vibe: "Accountant", hobbies: "Fashion, Karaoke", favTeam: "Chelsea", gender: "Female", photo: "https://randomuser.me/api/portraits/women/22.jpg", color: "#ff6b35,#1a0e09" },
+  { name: "Victory", fullName: "Victory Ojo",vibe: "Chef", hobbies: "Cooking, Anime", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/women/33.jpg", color: "#6dcc80,#0e1a10" },
+  { name: "Wale", fullName: "OlaWale Akindele",vibe: "Content Creator", hobbies: "Game Coordinato, Vlogging", favTeam: "Barcelona", gender: "Male", photo: "https://randomuser.me/api/portraits/men/44.jpg", color: "#6bb5f0,#0e1220" },
+  { name: "Opeyemi", fullName: "Opeyemi IDontKnowYourSurname",vibe: "Photo/Vide~Grapher", hobbies: "Vlogging, Food", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/women/66.jpg", color: "#f06b9f,#1a0e14" },
+  { name: "Segun", fullName: "Olusegun Akinnola",vibe: "Mixologist", hobbies: "Cocktails, Music", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
+  { name: "Lola", fullName: "Ololade Oyetunde",vibe: "Quality Control Officer", hobbies: "Travelling, Food", favTeam: "AC Milan", gender: "Female", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
+  { name: "Kolade", fullName: "Kolade Aminu",vibe: "To be decided", hobbies: "DJing, Football", favTeam: "Manchester City", gender: "Male", photo: "https://randomuser.me/api/portraits/men/55.jpg", color: "#c47ef0,#15102a" },
+  { name: "Kish", fullName: "Kish IDontKnowYourSurname",vibe: "To be decided", hobbies: "Photography, Vlogging", favTeam: "Real Madrid", gender: "Male", photo: "https://randomuser.me/api/portraits/men/77.jpg", color: "#f5c842,#1a1510" },
 
 ];
 
@@ -551,7 +551,7 @@ function renderMembers() {
           ${m.photo ? `<img src="${photo}" alt="${m.fullName || m.name}">` : initials}
         </div>
         <div class="member-name">${m.name}</div>
-        <div class="member-role">${m.role}</div>
+        <div class="member-role">${m.role || ''}</div>
         <div class="member-vibe">${m.vibe}</div>
       </div>
     `;
