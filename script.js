@@ -39,9 +39,9 @@ let rsvpList = [
 const hangoutAlbums = [
   {
     title: "Abeokuta Hangout",
-    date: "March 16, 2026",
+    date: "June 28, 2025",
     duration: "2 days",
-    location: "Olumo Rock, Abeokuta",
+    location: "Laderin, Abeokuta",
     photos: [
       {
         img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
@@ -59,7 +59,7 @@ const hangoutAlbums = [
   },
   {
     title: "Abule Hangout",
-    date: "February 22, 2026",
+    date: "November 29, 2025",
     duration: "1 day",
     location: "Abule Egba, Lagos",
     photos: [
@@ -79,9 +79,9 @@ const hangoutAlbums = [
   },
   {
     title: "Ibadan Hangout",
-    date: "January 18, 2026",
-    duration: "1 day",
-    location: "Bodija, Ibadan",
+    date: "March 20, 2026",
+    duration: "2 day",
+    location: "Akobo, Ibadan",
     photos: [
       {
         img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1600&q=80",
@@ -281,7 +281,7 @@ function initHangoutSlider() {
 }
 
 function animateStats() {
-  animateNum('stat-hangouts', 18);
+  animateNum('stat-hangouts', 3);
   animateNum('stat-members', members.length);
   animateNum('stat-photos', getTotalGalleryPhotoCount());
 }
