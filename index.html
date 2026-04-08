@@ -53,6 +53,29 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--text); }
+  .nav-toggle {
+    display: none;
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .nav-toggle span {
+    width: 18px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .nav-btn {
     background: var(--accent); color: #0e0d0c;
     border: none; border-radius: 50px; padding: 0.5rem 1.2rem;
@@ -79,14 +102,14 @@
     background: rgba(245,200,66,0.12); color: var(--accent);
     border: 1px solid rgba(245,200,66,0.25);
     border-radius: 50px; padding: 0.4rem 1rem;
-    font-size: 0.7rem; font-weight: 450; letter-spacing: 0.04em; text-transform: uppercase;
-    margin-bottom: 1.2rem;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
     animation: fadeUp 0.6s ease both;
   }
   .hero-title {
     font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: clamp(3.2rem, 9.5vw, 6.5rem);
-    line-height: 0.95; letter-spacing: -0.01em;
+    font-weight: 800; font-size: clamp(3.5rem, 10vw, 7rem);
+    line-height: 0.95; letter-spacing: -0.02em;
     animation: fadeUp 0.7s 0.1s ease both;
   }
   .hero-title span { color: var(--accent); }
@@ -266,6 +289,76 @@
   }
   .add-option-btn:hover { opacity: 0.85; }
 
+  /* ── PREVIOUS HANGOUTS SLIDER ── */
+  #previous-hangouts { background: var(--bg2); }
+  .slider-shell {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #131211;
+  }
+  .slider-track {
+    display: flex;
+    transition: transform 0.45s ease;
+    will-change: transform;
+  }
+  .slide {
+    min-width: 100%;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.12) 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+  .slide-caption { font-size: 0.95rem; font-weight: 500; }
+  .slider-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .slider-control.prev { left: 0.8rem; }
+  .slider-control.next { right: 0.8rem; }
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+  .slider-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+  }
+  .slider-dot.active { background: var(--accent); }
+
   /* ── MEMBERS ── */
   #members { background: var(--bg); }
   .members-grid {
@@ -275,12 +368,20 @@
     background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 1.5rem; text-align: center;
     transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
   }
   .member-card:hover { transform: translateY(-4px); border-color: rgba(245,200,66,0.3); }
   .member-avatar {
     width: 72px; height: 72px; border-radius: 50%;
     margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
     font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem;
+    overflow: hidden;
+  }
+  .member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .member-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
   .member-role { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem; }
@@ -341,6 +442,70 @@
     font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s;
   }
   .modal-submit:hover { opacity: 0.85; }
+  .join-form {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .join-form .modal-field { margin-bottom: 0; }
+  .join-help {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .form-status {
+    font-size: 0.85rem;
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    display: none;
+  }
+  .form-status.show { display: block; }
+  .form-status.success {
+    color: #6dcc80;
+    border-color: rgba(109,204,128,0.35);
+    background: rgba(109,204,128,0.08);
+  }
+  .form-status.error {
+    color: #ff9680;
+    border-color: rgba(255,107,53,0.35);
+    background: rgba(255,107,53,0.08);
+  }
+  .profile-modal .modal { max-width: 500px; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .profile-photo {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(245,200,66,0.35);
+    flex-shrink: 0;
+  }
+  .profile-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .profile-role { color: var(--muted); font-size: 0.9rem; margin-top: 0.2rem; }
+  .profile-list { display: grid; gap: 0.7rem; }
+  .profile-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.92rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    background: var(--bg3);
+  }
+  .profile-row span:first-child { color: var(--muted); }
+  .profile-row span:last-child { text-align: right; }
 
   /* ── ANIMS ── */
   @keyframes fadeUp {
@@ -363,11 +528,94 @@
     cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
 
-  /* ── MOBILE NAV ── */
-  @media(max-width: 600px) {
-    .nav-links { display: none; }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 980px) {
     nav { padding: 1rem 1.5rem; }
-    .hero-stats { gap: 1.5rem; }
+    section { padding: 5rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3.5rem; }
+    .hero-stats { gap: 2rem; }
+  }
+
+  @media (max-width: 760px) {
+    nav {
+      padding: 0.9rem 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.7rem 1rem;
+    }
+    .nav-toggle { display: inline-flex; margin-left: auto; }
+    .nav-btn {
+      order: 2;
+      margin-left: 0;
+      width: 100%;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+    }
+    .nav-links {
+      width: 100%;
+      order: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      padding-top: 0;
+      border-top: 0;
+      transition: max-height 0.25s ease, opacity 0.2s ease, padding-top 0.2s ease;
+    }
+    .nav-links.open {
+      max-height: 220px;
+      opacity: 1;
+      pointer-events: all;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border);
+    }
+    .nav-links a { display: block; padding: 0.3rem 0; }
+    .hero-title { font-size: clamp(2.5rem, 14vw, 4rem); }
+    .hero-sub { font-size: 1rem; }
+    .hero-stats { gap: 1.2rem; }
+    .hero-stat strong { font-size: 1.6rem; }
+    .countdown { flex-wrap: wrap; }
+    .cd-unit { flex: 1 1 calc(50% - 0.5rem); }
+    .rsvp-btns { flex-direction: column; }
+    .add-option-row { flex-direction: column; }
+    .upload-zone { padding: 2rem 1.25rem; }
+    .modal { padding: 1.25rem; border-radius: 16px; }
+    .slider-control {
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+    }
+    .slide-overlay { padding: 0.8rem; }
+    .slide-caption { font-size: 0.85rem; }
+    .profile-header { align-items: flex-start; }
+    .profile-photo {
+      width: 76px;
+      height: 76px;
+    }
+    .profile-name { font-size: 1.2rem; }
+    .profile-row { font-size: 0.86rem; }
+  }
+
+  @media (max-width: 480px) {
+    section { padding: 4.25rem 1rem; }
+    .hero { padding: 6.2rem 1rem 3rem; }
+    .hero-tag { margin-bottom: 1rem; }
+    .hero-cta {
+      width: 100%;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .hero-cta .btn-primary,
+    .hero-cta .btn-secondary { width: 100%; }
+    .hangout-card,
+    .poll-card { padding: 1.2rem; }
+    .slider-control.prev { left: 0.55rem; }
+    .slider-control.next { right: 0.55rem; }
+    .members-grid { grid-template-columns: 1fr; }
+    .modal-btns { flex-direction: column; }
   }
 </style>
 </head>
@@ -376,13 +624,16 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">NEXT HANGOUT</a>
-  <ul class="nav-links">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="primary-nav">
     <li><a href="#hangout">Upcoming</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#poll">Vote</a></li>
     <li><a href="#members">Crew</a></li>
   </ul>
-  <button class="nav-btn" onclick="openMemberModal()">+ Join Crew</button>
+  <button class="nav-btn" onclick="openJoinModal()">Request Invite</button>
 </nav>
 
 <!-- HERO -->
@@ -395,6 +646,7 @@
   <div class="hero-cta">
     <a href="#hangout" class="btn-primary">See Next Hangout</a>
     <a href="#gallery" class="btn-secondary">Browse Gallery</a>
+    <button class="btn-secondary" type="button" onclick="openJoinModal()">Join Next Hangout</button>
   </div>
   <div class="hero-stats">
     <div class="hero-stat"><strong id="stat-hangouts">0</strong><span>Hangouts so far</span></div>
@@ -476,6 +728,21 @@
   </div>
 </section>
 
+<!-- PREVIOUS HANGOUTS -->
+<section id="previous-hangouts">
+  <div class="section-inner">
+    <p class="section-label">🎞️ Throwbacks</p>
+    <h2 class="section-title">Previous Hangouts</h2>
+    <p class="section-sub">Swipe through moments from earlier meetups with the crew.</p>
+    <div class="slider-shell" id="hangout-slider">
+      <button class="slider-control prev" id="slider-prev" aria-label="Previous slide">‹</button>
+      <div class="slider-track" id="slider-track"></div>
+      <button class="slider-control next" id="slider-next" aria-label="Next slide">›</button>
+    </div>
+    <div class="slider-dots" id="slider-dots"></div>
+  </div>
+</section>
+
 <!-- MEMBERS -->
 <section id="members">
   <div class="section-inner">
@@ -526,6 +793,62 @@
   </div>
 </div>
 
+<!-- JOIN REQUEST MODAL -->
+<div class="modal-backdrop" id="join-modal">
+  <div class="modal">
+    <h3>Request to Join</h3>
+    <form id="join-form" class="join-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="cec1ac94-525d-4ae2-a182-9e60466f6e53">
+      <input type="hidden" name="subject" value="New Join Request - Next Hangout">
+      <input type="hidden" name="from_name" value="Next Hangout Website">
+      <input type="checkbox" name="botcheck" style="display:none">
+      <div class="modal-field">
+        <label>Full Name</label>
+        <input type="text" name="name" required placeholder="e.g. Evans Adebayo">
+      </div>
+      <div class="modal-field">
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="modal-field">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" required placeholder="+234...">
+      </div>
+      <div class="modal-field">
+        <label>Why do you want to join?</label>
+        <input type="text" name="message" required placeholder="Tell us your vibe">
+      </div>
+      <!-- MEMBER PROFILE MODAL <p class="join-help">Replace <code>cec1ac94-525d-4ae2-a182-9e60466f6e53</code> with your real Web3Forms key.</p> -->
+      <div id="join-form-status" class="form-status" role="status" aria-live="polite"></div>
+      <div class="modal-btns">
+        <button type="button" class="modal-cancel" onclick="closeJoinModal()">Cancel</button>
+        <button type="submit" class="modal-submit">Send Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MEMBER PROFILE MODAL -->
+<div class="modal-backdrop profile-modal" id="profile-modal">
+  <div class="modal">
+    <div class="profile-header">
+      <img class="profile-photo" id="profile-photo" src="" alt="">
+      <div>
+        <div class="profile-name" id="profile-full-name">Crew Member</div>
+        <div class="profile-role" id="profile-role">Crew Member</div>
+      </div>
+    </div>
+    <div class="profile-list">
+      <div class="profile-row"><span>Hobbies</span><span id="profile-hobbies">-</span></div>
+      <div class="profile-row"><span>Fav Team</span><span id="profile-team">-</span></div>
+      <div class="profile-row"><span>Gender</span><span id="profile-gender">-</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-submit" onclick="closeProfileModal()">Close Profile</button>
+    </div>
+  </div>
+</div>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
@@ -544,10 +867,16 @@ const nextHangout = {
 };
 
 let members = [
-  { name: "Tunde", role: "The Organiser", vibe: "Always On Time", color: "#f5c842,#1a1510" },
-  { name: "Amaka", role: "Hype Woman", vibe: "Loud & Proud", color: "#c47ef0,#15102a" },
-  { name: "Ade", role: "Food Scout", vibe: "Never Misses", color: "#6dcc80,#0e1a10" },
-  { name: "Kemi", role: "Photographer", vibe: "Posts Everything", color: "#f06b9f,#1a0e14" },
+  { name: "Evans", fullName: "Evander Olabode", role: "Crew Member", vibe: "House Master", hobbies: "Gaming, Movies", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/11.jpg", color: "#f5c842,#1a1510" },
+  { name: "Titi", fullName: "Titilola Akinsola", role: "Crew Member", vibe: "Accountant", hobbies: "Fashion, Karaoke", favTeam: "Chelsea", gender: "Female", photo: "https://randomuser.me/api/portraits/women/22.jpg", color: "#ff6b35,#1a0e09" },
+  { name: "Victory", fullName: "Victory Ojo", role: "Crew Member", vibe: "Chef", hobbies: "Cooking, Anime", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/men/33.jpg", color: "#6dcc80,#0e1a10" },
+  { name: "Wale", fullName: "OlaWale Akindele", role: "Crew Member", vibe: "Content Creator", hobbies: "Photography, Reels", favTeam: "Barcelona", gender: "Male", photo: "https://randomuser.me/api/portraits/men/44.jpg", color: "#6bb5f0,#0e1220" },
+  { name: "Kolade", fullName: "Kolade Aminu", role: "Crew Member", vibe: "Music Director", hobbies: "DJing, Football", favTeam: "Manchester City", gender: "Male", photo: "https://randomuser.me/api/portraits/men/55.jpg", color: "#c47ef0,#15102a" },
+  { name: "Opeyemi", fullName: "Opeyemi IDontKnowYourSurname", role: "Crew Member", vibe: "Game Coordinator", hobbies: "Board Games, Reading", favTeam: "Manchester United", gender: "Female", photo: "https://randomuser.me/api/portraits/women/66.jpg", color: "#f06b9f,#1a0e14" },
+  { name: "Kish", fullName: "Kish IDontKnowYourSurname", role: "Crew Member", vibe: "Location Manager", hobbies: "Travel, Vlogging", favTeam: "Real Madrid", gender: "Male", photo: "https://randomuser.me/api/portraits/men/77.jpg", color: "#f5c842,#1a1510" },
+  { name: "Segun", fullName: "Olusegun Akinnola", role: "Crew Member", vibe: "Mixologist", hobbies: "Cocktails, Music", favTeam: "Manchester United", gender: "Male", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
+  { name: "Lola", fullName: "Ololade Oyetunde", role: "Crew Member", vibe: "Mixologist", hobbies: "Cocktails, Music", favTeam: "AC Milan", gender: "Feale", photo: "https://randomuser.me/api/portraits/men/88.jpg", color: "#6dcc80,#0e1a10" },
+
 ];
 
 let pollOptions = [
@@ -574,17 +903,140 @@ const galleryItems = [
   { emoji: "🏀", label: "Sport Day", bg: "#0e2e1a" },
 ];
 
+const previousHangoutSlides = [
+  {
+    img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
+    caption: "Beach link-up at sunset"
+  },
+  {
+    img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1600&q=80",
+    caption: "Live music night with the full crew"
+  },
+  {
+    img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80",
+    caption: "Rooftop chill and city lights"
+  },
+  {
+    img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1600&q=80",
+    caption: "Weekend outdoor hangout"
+  }
+];
+
+let sliderIndex = 0;
+let sliderTimer = null;
+
 let photoCount = galleryItems.length;
 
 // ── INIT ──
 function init() {
+  initMobileNav();
   renderEventInfo();
   startCountdown();
   renderRsvp();
   renderGallery();
+  initHangoutSlider();
   renderPoll();
   renderMembers();
   animateStats();
+}
+
+function initMobileNav() {
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+
+  const closeMenu = () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  links.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 760) closeMenu();
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (window.innerWidth > 760) return;
+    if (!links.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760) closeMenu();
+  });
+}
+
+function initHangoutSlider() {
+  const track = document.getElementById('slider-track');
+  const dots = document.getElementById('slider-dots');
+  const prev = document.getElementById('slider-prev');
+  const next = document.getElementById('slider-next');
+  const shell = document.getElementById('hangout-slider');
+
+  if (!track || !dots || !prev || !next || !shell || !previousHangoutSlides.length) return;
+
+  track.innerHTML = previousHangoutSlides.map(slide => `
+    <div class="slide">
+      <img src="${slide.img}" alt="${slide.caption}">
+      <div class="slide-overlay">
+        <p class="slide-caption">${slide.caption}</p>
+      </div>
+    </div>
+  `).join('');
+
+  dots.innerHTML = previousHangoutSlides.map((_, i) => `
+    <button class="slider-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>
+  `).join('');
+
+  function updateSlider(index) {
+    sliderIndex = (index + previousHangoutSlides.length) % previousHangoutSlides.length;
+    track.style.transform = `translateX(-${sliderIndex * 100}%)`;
+    dots.querySelectorAll('.slider-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === sliderIndex);
+    });
+  }
+
+  function restartAutoPlay() {
+    if (sliderTimer) clearInterval(sliderTimer);
+    sliderTimer = setInterval(() => updateSlider(sliderIndex + 1), 4500);
+  }
+
+  prev.addEventListener('click', () => {
+    updateSlider(sliderIndex - 1);
+    restartAutoPlay();
+  });
+  next.addEventListener('click', () => {
+    updateSlider(sliderIndex + 1);
+    restartAutoPlay();
+  });
+
+  dots.addEventListener('click', e => {
+    const btn = e.target.closest('.slider-dot');
+    if (!btn) return;
+    updateSlider(Number(btn.dataset.index));
+    restartAutoPlay();
+  });
+
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const delta = e.changedTouches[0].clientX - startX;
+    if (Math.abs(delta) < 40) return;
+    if (delta > 0) updateSlider(sliderIndex - 1);
+    else updateSlider(sliderIndex + 1);
+    restartAutoPlay();
+  });
+
+  shell.addEventListener('mouseenter', () => sliderTimer && clearInterval(sliderTimer));
+  shell.addEventListener('mouseleave', restartAutoPlay);
+
+  updateSlider(0);
+  restartAutoPlay();
 }
 
 function animateStats() {
@@ -723,12 +1175,15 @@ function addOption() {
 // ── MEMBERS ──
 function renderMembers() {
   const grid = document.getElementById('members-grid');
-  grid.innerHTML = members.map(m => {
+  grid.innerHTML = members.map((m, i) => {
     const [bg, color] = m.color.split(',');
     const initials = m.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const photo = m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.fullName || m.name)}&background=1a1917&color=f0ede8&size=200`;
     return `
-      <div class="member-card">
-        <div class="member-avatar" style="background:${bg};color:${color}">${initials}</div>
+      <div class="member-card" onclick="openProfileModal(${i})">
+        <div class="member-avatar" style="background:${bg};color:${color}">
+          ${m.photo ? `<img src="${photo}" alt="${m.fullName || m.name}">` : initials}
+        </div>
         <div class="member-name">${m.name}</div>
         <div class="member-role">${m.role}</div>
         <div class="member-vibe">${m.vibe}</div>
@@ -745,6 +1200,25 @@ function renderMembers() {
 
 function openMemberModal() { document.getElementById('member-modal').classList.add('open'); }
 function closeMemberModal() { document.getElementById('member-modal').classList.remove('open'); }
+function closeProfileModal() { document.getElementById('profile-modal').classList.remove('open'); }
+function openJoinModal() { document.getElementById('join-modal').classList.add('open'); }
+function closeJoinModal() { document.getElementById('join-modal').classList.remove('open'); }
+
+function openProfileModal(i) {
+  const member = members[i];
+  if (!member) return;
+
+  const fullName = member.fullName || member.name;
+  const photo = member.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=1a1917&color=f0ede8&size=240`;
+  document.getElementById('profile-photo').src = photo;
+  document.getElementById('profile-photo').alt = fullName;
+  document.getElementById('profile-full-name').textContent = fullName;
+  document.getElementById('profile-role').textContent = member.role || 'Crew Member';
+  document.getElementById('profile-hobbies').textContent = member.hobbies || 'Good vibes';
+  document.getElementById('profile-team').textContent = member.favTeam || 'No favorite team';
+  document.getElementById('profile-gender').textContent = member.gender || 'Not specified';
+  document.getElementById('profile-modal').classList.add('open');
+}
 
 function addMember() {
   const name = document.getElementById('m-name').value.trim();
@@ -752,7 +1226,16 @@ function addMember() {
   const vibe = document.getElementById('m-vibe').value.trim();
   const color = document.getElementById('m-color').value;
   if (!name) { alert('Please enter your name!'); return; }
-  members.push({ name, role: role || 'Crew Member', vibe: vibe || 'Good Vibes Only', color });
+  members.push({
+    name,
+    fullName: name,
+    role: role || 'Crew Member',
+    vibe: vibe || 'Good Vibes Only',
+    hobbies: 'Music, Games',
+    favTeam: 'Not set',
+    gender: 'Not specified',
+    color
+  });
   renderMembers();
   closeMemberModal();
   ['m-name','m-role','m-vibe'].forEach(id => document.getElementById(id).value = '');
@@ -760,6 +1243,41 @@ function addMember() {
 
 document.getElementById('member-modal').addEventListener('click', function(e) {
   if (e.target === this) closeMemberModal();
+});
+document.getElementById('join-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeJoinModal();
+});
+document.getElementById('profile-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeProfileModal();
+});
+
+document.getElementById('join-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const status = document.getElementById('join-form-status');
+
+  status.className = 'form-status show';
+  status.textContent = 'Sending request...';
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form)
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      status.className = 'form-status show success';
+      status.textContent = 'Successful form submission. A rep will reach out to you.';
+      form.reset();
+    } else {
+      status.className = 'form-status show error';
+      status.textContent = data.message || 'Something went wrong. Please try again.';
+    }
+  } catch (err) {
+    status.className = 'form-status show error';
+    status.textContent = 'Network error. Please try again.';
+  }
 });
 
 init();
