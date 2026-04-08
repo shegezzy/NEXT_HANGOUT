@@ -45,6 +45,18 @@ const galleryItems = [
   { emoji: "🏀", label: "Sport Day", bg: "#0e2e1a" },
 ];
 
+const paymentLeaderboard = [
+  { name: "Evans", amount: 40000 },
+  { name: "TNA", amount: 35000 },
+  { name: "Victory", amount: 32000 },
+  { name: "Wale", amount: 30000 },
+  { name: "Opeyemi", amount: 28000 },
+  { name: "Segun", amount: 26000 },
+  { name: "Lola", amount: 24000 },
+  { name: "Kolade", amount: 22000 },
+  { name: "Kish", amount: 20000 },
+];
+
 const previousHangoutSlides = [
   {
     img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
@@ -76,6 +88,7 @@ function init() {
   startCountdown();
   renderRsvp();
   renderGallery();
+  renderLeaderboard();
   initHangoutSlider();
   renderPoll();
   renderMembers();
@@ -312,6 +325,34 @@ function addOption() {
   pollOptions.push({ label: val, votes: 0 });
   inp.value = '';
   renderPoll();
+}
+
+// ── LEADERBOARD ──
+function renderLeaderboard() {
+  const list = document.getElementById('leaderboard-list');
+  if (!list) return;
+
+  if (!paymentLeaderboard.length) {
+    list.innerHTML = '<p class="leaderboard-empty">No payments ranked yet.</p>';
+    return;
+  }
+
+  const formatNaira = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    maximumFractionDigits: 0,
+  });
+
+  const sorted = [...paymentLeaderboard].sort((a, b) => b.amount - a.amount);
+  list.innerHTML = sorted.map((entry, i) => `
+    <div class="leaderboard-row">
+      <div class="leaderboard-member">
+        <span class="leaderboard-rank">#${i + 1}</span>
+        <span class="leaderboard-name">${entry.name}</span>
+      </div>
+      <div class="leaderboard-amount">${formatNaira.format(entry.amount)}</div>
+    </div>
+  `).join('');
 }
 
 // ── MEMBERS ──

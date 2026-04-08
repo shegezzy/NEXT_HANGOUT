@@ -293,6 +293,70 @@
   }
   .add-option-btn:hover { opacity: 0.85; }
 
+  /* ── LEADERBOARD ── */
+  #leaderboard { background: var(--bg); }
+  .leaderboard-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .leaderboard-head,
+  .leaderboard-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.95rem 1rem;
+  }
+  .leaderboard-head {
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .leaderboard-row {
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .leaderboard-row:last-child { border-bottom: 0; }
+  .leaderboard-member {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+  .leaderboard-rank {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0e0d0c;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .leaderboard-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .leaderboard-amount {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .leaderboard-empty {
+    padding: 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
   /* ── PREVIOUS HANGOUTS SLIDER ── */
   #previous-hangouts { background: var(--bg2); }
   .slider-shell {
@@ -586,6 +650,16 @@
     .rsvp-btns { flex-direction: column; }
     .add-option-row { flex-direction: column; }
     .upload-zone { padding: 2rem 1.25rem; }
+    .leaderboard-head,
+    .leaderboard-row {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
+    .leaderboard-head span:last-child {
+      text-transform: none;
+      letter-spacing: normal;
+      font-size: 0.72rem;
+    }
     .modal { padding: 1.25rem; border-radius: 16px; }
     .slider-control {
       width: 36px;
