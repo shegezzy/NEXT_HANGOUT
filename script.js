@@ -351,18 +351,23 @@ function renderGalleryPage() {
   const container = document.getElementById('hangout-albums');
   if (!container) return;
 
-  container.innerHTML = hangoutAlbums.map((album, albumIndex) => {
+  const albumsMarkup = hangoutAlbums.map((album, albumIndex) => {
     const photosMarkup = album.photos.map((photo, photoIndex) => {
+      const hiddenClass = photoIndex > 0 ? ' is-hidden' : '';
       return `
-        <button class="gallery-page-item" type="button" onclick="openLightbox(${albumIndex}, ${photoIndex})" aria-label="Open ${photo.caption}">
+        <button class="gallery-page-item${hiddenClass}" data-extra="${photoIndex > 0 ? 'true' : 'false'}" type="button" onclick="openLightbox(${albumIndex}, ${photoIndex})" aria-label="Open ${photo.caption}">
           <img src="${photo.img}" alt="${photo.caption}">
           <span>${photo.caption}</span>
         </button>
       `;
     }).join('');
 
+    const toggleBtnMarkup = album.photos.length > 1
+      ? `<button class="gallery-show-more-btn" type="button" onclick="toggleAlbumPhotos(${albumIndex}, this)" aria-expanded="false">Show more (${album.photos.length - 1})</button>`
+      : '';
+
     return `
-      <article class="hangout-album">
+      <article class="hangout-album" id="album-${albumIndex}">
         <div class="hangout-album-head">
           <h2>${album.title}</h2>
           <div class="hangout-album-meta">
@@ -374,9 +379,32 @@ function renderGalleryPage() {
         <div class="gallery-page-grid">
           ${photosMarkup}
         </div>
+        ${toggleBtnMarkup}
       </article>
     `;
   }).join('');
+
+  container.innerHTML = `
+    <div class="hangout-albums-shell">
+      ${albumsMarkup}
+    </div>
+  `;
+}
+
+function toggleAlbumPhotos(albumIndex, triggerBtn) {
+  const albumRoot = document.getElementById(`album-${albumIndex}`);
+  if (!albumRoot || !triggerBtn) return;
+
+  const hiddenItems = albumRoot.querySelectorAll('.gallery-page-item[data-extra="true"]');
+  if (!hiddenItems.length) return;
+
+  const isExpanding = triggerBtn.getAttribute('aria-expanded') !== 'true';
+  hiddenItems.forEach(item => {
+    item.classList.toggle('is-hidden', !isExpanding);
+  });
+
+  triggerBtn.setAttribute('aria-expanded', String(isExpanding));
+  triggerBtn.textContent = isExpanding ? 'Show less' : `Show more (${hiddenItems.length})`;
 }
 
 function updateLightboxView() {
