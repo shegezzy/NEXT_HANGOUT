@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Login | Next Hangout?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-login">
+  <header class="topbar">
+    <a href="index.html" class="brand">NEXT HANGOUT?</a>
+    <a href="index.html" class="back-link">Back Home</a>
+  </header>
+
+  <main>
+    <section class="login-shell">
+      <p class="eyebrow">Members Area</p>
+      <h1>Member Login</h1>
+      <p class="hero-sub">Sign in to view your payment status dashboard.</p>
+
+      <form id="member-login-form" class="form-card">
+        <label>
+          Email Address
+          <input type="email" id="login-email" required placeholder="your@email.com">
+        </label>
+        <label>
+          PIN
+          <input type="password" id="login-pin" required placeholder="Enter your member PIN">
+        </label>
+        <div id="login-status" class="status" aria-live="polite"></div>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+      <p class="login-hint">If you don't have login details yet, contact admin.</p>
+    </section>
+  </main>
+
+  <footer>
+    <strong>NEXT HANGOUT?</strong> — Built for the crew, by the crew. 🤝
+    <div style="margin-top:0.5rem;font-size:0.75rem">Made with love & good vibes</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

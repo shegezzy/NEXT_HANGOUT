@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Next Hangout?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-dashboard">
+  <header class="topbar">
+    <a href="index.html" class="brand">NEXT HANGOUT?</a>
+    <div class="dashboard-actions">
+      <a href="index.html" class="back-link">Back Home</a>
+      <button id="member-logout-btn" class="back-link" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard-shell">
+      <p class="eyebrow">Members Dashboard</p>
+      <h1 id="dash-member-name">Welcome</h1>
+      <p class="hero-sub" id="dash-member-email">member@email.com</p>
+
+      <div class="dashboard-card">
+        <h2>Payment Status</h2>
+        <div class="dash-row">
+          <span>Status</span>
+          <strong id="dash-payment-status" class="dash-badge">Pending</strong>
+        </div>
+        <div class="dash-row">
+          <span>Amount Paid</span>
+          <strong id="dash-amount-paid">₦0</strong>
+        </div>
+        <div class="dash-row">
+          <span>Reference</span>
+          <strong id="dash-reference">-</strong>
+        </div>
+        <div class="dash-row">
+          <span>Last Updated</span>
+          <strong id="dash-updated">-</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>NEXT HANGOUT?</strong> — Built for the crew, by the crew. 🤝
+    <div style="margin-top:0.5rem;font-size:0.75rem">Made with love & good vibes</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

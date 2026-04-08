@@ -57,6 +57,18 @@ const paymentLeaderboard = [
   { name: "Kish", amount: 20000 },
 ];
 
+const memberPortalRecords = [
+  { name: "Evans", email: "evans@nexthangout.com", pin: "1111", status: "paid", amountPaid: 40000, reference: "TRF-8036102434-001", updatedAt: "2026-04-08" },
+  { name: "TNA", email: "tna@nexthangout.com", pin: "2222", status: "paid", amountPaid: 35000, reference: "TRF-8036102434-002", updatedAt: "2026-04-08" },
+  { name: "Victory", email: "victory@nexthangout.com", pin: "3333", status: "paid", amountPaid: 32000, reference: "TRF-8036102434-003", updatedAt: "2026-04-08" },
+  { name: "Wale", email: "wale@nexthangout.com", pin: "4444", status: "paid", amountPaid: 30000, reference: "TRF-8036102434-004", updatedAt: "2026-04-08" },
+  { name: "Opeyemi", email: "opeyemi@nexthangout.com", pin: "5555", status: "pending", amountPaid: 28000, reference: "TRF-8036102434-005", updatedAt: "2026-04-08" },
+  { name: "Segun", email: "segun@nexthangout.com", pin: "6666", status: "paid", amountPaid: 26000, reference: "TRF-8036102434-006", updatedAt: "2026-04-08" },
+  { name: "Lola", email: "lola@nexthangout.com", pin: "7777", status: "pending", amountPaid: 24000, reference: "TRF-8036102434-007", updatedAt: "2026-04-08" },
+  { name: "Kolade", email: "kolade@nexthangout.com", pin: "8888", status: "unpaid", amountPaid: 0, reference: "-", updatedAt: "2026-04-08" },
+  { name: "Kish", email: "kish@nexthangout.com", pin: "9999", status: "unpaid", amountPaid: 0, reference: "-", updatedAt: "2026-04-08" },
+];
+
 const previousHangoutSlides = [
   {
     img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
@@ -512,6 +524,101 @@ function initPaymentPage() {
   }
 }
 
+function getMemberByCredentials(email, pin) {
+  return memberPortalRecords.find(record =>
+    record.email.toLowerCase() === email.toLowerCase() && record.pin === pin
+  );
+}
+
+function initLoginPage() {
+  const form = document.getElementById('member-login-form');
+  const status = document.getElementById('login-status');
+  if (!form || !status) return;
+
+  const existingSession = localStorage.getItem('nh_member_session');
+  if (existingSession) {
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pin = document.getElementById('login-pin').value.trim();
+    const member = getMemberByCredentials(email, pin);
+
+    if (!member) {
+      status.className = 'status show error';
+      status.textContent = 'Invalid login details. Please check your email and PIN.';
+      return;
+    }
+
+    localStorage.setItem('nh_member_session', JSON.stringify({ email: member.email }));
+    status.className = 'status show success';
+    status.textContent = 'Login successful. Redirecting...';
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 450);
+  });
+}
+
+function initDashboardPage() {
+  const sessionRaw = localStorage.getItem('nh_member_session');
+  if (!sessionRaw) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  let session;
+  try {
+    session = JSON.parse(sessionRaw);
+  } catch (err) {
+    localStorage.removeItem('nh_member_session');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const member = memberPortalRecords.find(record => record.email === session.email);
+  if (!member) {
+    localStorage.removeItem('nh_member_session');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const formatNaira = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    maximumFractionDigits: 0,
+  });
+
+  const statusLabelMap = {
+    paid: 'Paid',
+    pending: 'Pending Verification',
+    unpaid: 'Not Paid',
+  };
+
+  const nameEl = document.getElementById('dash-member-name');
+  const emailEl = document.getElementById('dash-member-email');
+  const statusEl = document.getElementById('dash-payment-status');
+  const amountEl = document.getElementById('dash-amount-paid');
+  const refEl = document.getElementById('dash-reference');
+  const updatedEl = document.getElementById('dash-updated');
+  const logoutBtn = document.getElementById('member-logout-btn');
+
+  if (!nameEl || !emailEl || !statusEl || !amountEl || !refEl || !updatedEl || !logoutBtn) return;
+
+  nameEl.textContent = `Hi, ${member.name}`;
+  emailEl.textContent = member.email;
+  statusEl.textContent = statusLabelMap[member.status] || 'Pending';
+  statusEl.className = `dash-badge ${member.status}`;
+  amountEl.textContent = formatNaira.format(member.amountPaid || 0);
+  refEl.textContent = member.reference || '-';
+  updatedEl.textContent = member.updatedAt || '-';
+
+  logoutBtn.addEventListener('click', function () {
+    localStorage.removeItem('nh_member_session');
+    window.location.href = 'login.html';
+  });
+}
+
 attachModalBackdropClose('member-modal', closeMemberModal);
 attachModalBackdropClose('join-modal', closeJoinModal);
 attachModalBackdropClose('profile-modal', closeProfileModal);
@@ -525,4 +632,12 @@ if (document.body.classList.contains('page-home')) {
 
 if (document.body.classList.contains('page-payment')) {
   initPaymentPage();
+}
+
+if (document.body.classList.contains('page-login')) {
+  initLoginPage();
+}
+
+if (document.body.classList.contains('page-dashboard')) {
+  initDashboardPage();
 }
